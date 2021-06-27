@@ -16,6 +16,8 @@ var addTwoNumbers = function(l1, l2) {
     let carry = 0;
     let head;
     let res;
+    
+    //since this is reverse number we have to carry over the value post first addition
     while(l1 || l2) {
         let num = 0;    
         if(l1) {
