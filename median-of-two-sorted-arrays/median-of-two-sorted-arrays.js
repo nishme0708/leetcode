@@ -9,15 +9,19 @@ var findMedianSortedArrays = function(nums1, nums2) {
     let total = (nums1.length + nums2.length);
     let med = Math.floor(total/2);
     let res = [];
-    while(res.length <= med) {
-        let cur1 = nums1[i] === undefined ?  Infinity : nums1[i];
-        let cur2 = nums2[j] === undefined ?  Infinity : nums2[j];
-        if(cur1 > cur2) {
-            res.push(cur2);
-            j++;
-        } else{
-            res.push(cur1);
-            i++;
+    while(res.length <= med && i < nums1.length && j< nums2.length) {
+        if(nums1[i]<nums2[j]) {
+            res.push(nums1[i++]);
+        } else {
+            res.push(nums2[j++]);
+        }
+    }
+    if(res.length <= med) {
+        if(i< nums1.length) {
+            res = res.concat(nums1.slice(i));
+        }
+        if(j< nums2.length) {
+            res = res.concat(nums2.slice(j));
         }
     }
     if(total %2 == 0) {        
