@@ -61,33 +61,34 @@ class Solution {
 
 * @returns number[]
 */
-        printFirstNegativeInteger(n, k, arr) {
+    printFirstNegativeInteger(n, k, arr) {
         // code here
-  let res = [];
-  let queue = [];
-  let i = 0;
-  let j = 0;
-  while (j < arr.length) {
-    let element = arr[j];
-    if (element < 0) {
-      queue.push(element);
-    }
-    if (j - i + 1 == k) {
-      if (queue.length) {
-        res.push(queue[0]);
-        if (arr[i] == queue[0]) {
-          queue.shift();
+        let start = 0;
+        let end = 0;
+        let queue = [];
+        let res = [];
+        while(end < n) {
+            let current = arr[end];
+            if(current < 0) {
+                queue.push(current);
+            }
+            if(end-start+1 == k) {
+                if(queue.length == 0) {
+                    res.push(0);
+                } else {
+                    res.push(queue[0]);
+                }
+                let startElement = arr[start];
+                if(queue[0] == startElement) {
+                    queue.shift();
+                }
+                start++;
+                end++;
+            } else {
+                end++;
+            }
         }
-      } else {
-        res.push(0);
-      }
-      i++;
-      j++;
-    } else {
-      j++;
-    }
-  }
-  return res;
+        return res;
     }
 }
         
