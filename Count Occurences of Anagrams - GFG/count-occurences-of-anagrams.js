@@ -55,46 +55,47 @@ function main() {
 */
 
 class Solution {
-    search(txt,pat){
+    search(pat,txt){
+       //code here
+           
+       //code here
+       let obj = {};
+       for(let p of pat) {
+           if(!obj[p]) {
+               obj[p] = 0
+           } 
+           obj[p]++;
+       }
+       let total = pat.length;
+       let res = 0;
+       let start = 0;
+       let end = 0;
+       while(end<txt.length) {
+           let current = txt[end];
+           if(obj[current]!=undefined) {
+               obj[current]--;
+               if(obj[current]>=0)
+               total--;
+           }
+           if(total == 0) {
+               res++;
+           }
+           if(end-start+1 == pat.length) {
+               let startChar = txt[start];
+               if(obj[startChar] != undefined) {
+                   obj[startChar]++;
+                   if(obj[startChar]>0)
+                   total++;
+               }
+               start++;
+               end++;
+           } else {
+               end++;
+           }
+       }
+       return res;
+    }
 
-           let obj = {};
-    for(let letter of txt) {
-        if(!obj[letter]) {
-            obj[letter] = 0;
-        }
-        obj[letter]++;
+
+    
     }
-    let distinct = Object.keys(obj).length;
-    let i = 0;
-    let j = 0;
-    let k = txt.length;
-    let total = 0;
-    while(j<pat.length) {
-        let letter = pat[j];
-        if(obj[letter] != undefined) {
-            obj[letter]-=1;
-            if(obj[letter] == 0) {
-                distinct--;
-            } 
-        }
-        if((j-i+1) == k ) {
-            if(distinct == 0) {
-                total++;
-            }
-            let prev = pat[i];
-            if(obj[prev]!=undefined) {
-                obj[prev]+=1;
-                if(obj[prev]==1) {
-                    distinct++;
-                }
-            }
-            i++;
-            j++;
-            
-        } else {
-            j++;
-        }
-    }
-    return total;
-    }
-}
