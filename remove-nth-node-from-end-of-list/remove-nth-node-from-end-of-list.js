@@ -10,7 +10,7 @@
  * @param {number} n
  * @return {ListNode}
  */
-var removeNthFromEnd = function(head, n) {
+var removeNthFromEnd1 = function(head, n) {
     let res =[];
     let total = 0;
     let headCopy = head;
@@ -29,5 +29,24 @@ var removeNthFromEnd = function(head, n) {
     } else {
         head = head.next;
     }
+    return head;
+};
+
+var removeNthFromEnd = function(head, n) {
+    let headCopy = head;
+    let tail = head;
+    for(let i = 0;i<n && tail!=null;i++){
+        tail = tail.next;
+    }
+    if(!tail) {
+        return head.next;
+    }
+    while(tail?.next!=null) {
+        headCopy = headCopy.next;
+        tail = tail.next;
+    }
+    console.log(headCopy,tail);
+    
+    headCopy.next = headCopy.next?.next || null;
     return head;
 };
