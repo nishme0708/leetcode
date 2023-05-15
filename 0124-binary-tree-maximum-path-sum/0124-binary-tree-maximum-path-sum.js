@@ -12,18 +12,19 @@
  */
 var maxPathSum = function(root) {
     let max = Number.NEGATIVE_INFINITY;
+    if(root.left == null && root.right ==null) return root.val;
     function traverse(node) {
+        
         if(!node) return 0;
-        // if(node.left == null && node.right == null) return node.val;
+        
         let left = traverse(node.left);
         let right = traverse(node.right);
-        let val = node.val;
-        let singleMax = Math.max(left+val, right + val, val);
-        console.log(left, right, val, singleMax);
-        let only = left + right + val;
-        max = Math.max(max, only, singleMax);
-        return singleMax;
-    }
+        let self = node.val;
+        let pathMax = Math.max(self, self+left,self+right);
+        max = Math.max(max, pathMax, self + left + right);
+        console.log(self,left,right,pathMax,max);
+        return pathMax;
+    }  
     traverse(root);
     return max;
 };
