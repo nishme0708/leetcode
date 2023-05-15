@@ -66,18 +66,18 @@ function main() {
  */
 
 class Solution {
-    longestCommonSubstr(S1,S2,n,m){
+    longestCommonSubstr(S1,S2,m,n){
         //code here
-        let table = Array(n+1).fill().map(()=>Array(m+1).fill(0));
+        let table = Array(m+1).fill().map(()=>Array(n+1).fill(0));
+        let count = 0;
         let max = 0;
-        for(let i=0;i<=n;i++) {
-            for(let j=0;j<=m;j++) {
-                if(i ==0 || j ==0) {
+        for(let i=0;i<=m;i++) {
+            for(let j=0;j<=n;j++) {
+                if(i==0 || j==0){
                     table[i][j] = 0;
-                    
                 } else {
-                    if(S1[i-1] == S2[j-1]) {
-                        table[i][j] = table[i-1][j-1] +1;
+                    if(S1[i-1]==S2[j-1]) {
+                        table[i][j] = 1+ table[i-1][j-1];
                         max = Math.max(max, table[i][j]);
                     } else {
                         table[i][j] = 0;
@@ -85,6 +85,7 @@ class Solution {
                 }
             }
         }
-        return max;
+        
+    return max
     }
 }
