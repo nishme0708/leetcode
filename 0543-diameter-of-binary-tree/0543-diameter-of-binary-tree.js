@@ -11,18 +11,21 @@
  * @return {number}
  */
 var diameterOfBinaryTree = function(root) {
-      let max = 0;
+    let max = 0;
+    
     function traverse(node) {
-        if(!node ) return 0;
-        if(node.left == null && node.right == null) return 1;
+        if(node == null) return 0;
+        if(node.left == null && node.right == 0) return 1;
         let left = traverse(node.left);
         let right = traverse(node.right);
-        let singleMax = Math.max(left,right) + 1;
-        let only = left + right + 1;
-        console.log(left,right,singleMax,only);
-        max = Math.max(singleMax, only,max);
-        return singleMax;
+        let path = 1 + Math.max(left, right);
+        //self check 
+        max = Math.max(max, left+right+1);
+        return path;
     }
+    if(root) {
     traverse(root);
-    return max == 0 ? max : max - 1;
+    max--;
+    }
+    return max;
 };
