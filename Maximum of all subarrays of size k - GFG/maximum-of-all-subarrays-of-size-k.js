@@ -69,37 +69,32 @@ class Solution
     //Function to find maximum of each subarray of size k.
 	max_of_subarrays(arr, n, k)
 	{
+        
+        let start = 0, end = 0;
         let queue = [];
-        let i = 0;
-        let j = 0; 
         let res = [];
-        while(j<arr.length) {
-            let item = arr[j];
+        while(end < arr.length) {
+            let item = arr[end];
             if(queue.length == 0) {
                 queue.push(item);
             } else {
-                if(item > queue[0]) {
-                    // we don't need the queue 
+                if(queue[0]<item){
                     queue = [item];
                 } else {
-                    // add it in a desc manner
                     while(queue.length && queue[queue.length-1]<item) {
                         queue.pop();
                     }
                     queue.push(item);
                 }
             }
-            
-            if(j-i+1 == k) {
+            if(end-start+1 ==k) {
                 res.push(queue[0]);
-                if(arr[i] == queue[0]) {
+                let startItem = arr[start++];
+                if(startItem == queue[0]) {
                     queue.shift();
-                } 
-                i++;
-                j++;
-            } else {
-                j++;
+                }
             }
+            end++;
         }
         return res;
     }
