@@ -71,26 +71,27 @@ function main() {
 */
 
 class Solution{
-    lenOfLongSubarr(nums,n, k){
+    lenOfLongSubarr(arr,n, k){
         //code here
         let map = new Map();
         let total = 0;
         let max = 0;
-        for(let i =0;i<nums.length;i++) {
-         let curr = nums[i];
-          total+=curr;
-          if(total == k) {
-              max = i+1;
-          } else {
-          let diff = total -k;
-          if(map.has(diff)) {
-              max = Math.max(max,i-map.get(diff));
-          }
-          }
-          if(!map.has(total)) {
-              map.set(total, i);
-          }
-  }
-  return max;
+        for(let i = 0;i<arr.length;i++) {
+            let item = arr[i];
+            total+=item;
+            if(total == k) {
+                max = i+1;
+            }
+            let rem = total - k;
+            if(map.has(rem)) {
+                
+                max = Math.max(max, i - map.get(rem));
+            }
+            if(!map.has(total)) {
+                map.set(total,i);
+            }
+        }
+        
+        return max;
     }
 }
