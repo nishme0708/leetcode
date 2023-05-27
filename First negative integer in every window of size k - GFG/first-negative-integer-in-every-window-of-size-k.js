@@ -67,26 +67,24 @@ class Solution {
         let end = 0;
         let queue = [];
         let res = [];
-        while(end < n) {
-            let current = arr[end];
-            if(current < 0) {
-                queue.push(current);
+        while(end<arr.length) {
+            let item = arr[end];
+            if(item<0){
+                queue.push(item);
             }
             if(end-start+1 == k) {
-                if(queue.length == 0) {
-                    res.push(0);
+                if(queue.length) {
+                    res.push(queue[0])
                 } else {
-                    res.push(queue[0]);
+                    res.push(0);
                 }
-                let startElement = arr[start];
-                if(queue[0] == startElement) {
+                let startItem = arr[start];
+                if(startItem == queue[0]) {
                     queue.shift();
                 }
                 start++;
-                end++;
-            } else {
-                end++;
             }
+            end++;
         }
         return res;
     }
