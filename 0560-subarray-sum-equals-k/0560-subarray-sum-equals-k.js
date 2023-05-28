@@ -5,22 +5,17 @@
  */
 var subarraySum = function(nums, k) {
     let map = new Map();
-    let total = 0;
+    let sum = 0;
     let res = 0;
-    for(let i =0;i<nums.length;i++) {
-        let curr = nums[i];
-        total+=curr;
-        if(total == k) {
-            res++;
+    map.set(0,1);
+    for(let item of nums) {
+        sum+=item;
+        let rem = sum - k;
+        if(map.has(rem)) {
+            res+=map.get(rem);
         }
-        let diff = total -k;
-        if(map.has(diff)) {
-            res+=map.get(diff);
-        }
-        if(!map.has(total)) {
-            map.set(total,0);
-        }
-        map.set(total,map.get(total)+1);
+        map.set(sum, (map.get(sum) || 0)+1);
     }
+    
     return res;
 };
