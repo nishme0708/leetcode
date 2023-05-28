@@ -66,33 +66,31 @@ function main() {
 class Solution {
     longestKSubstr(s, k) {
         //code here
-        let i = 0;
-        let j = 0;
-        let max = -1;
-        let distinct = 0;
-        let obj = {};
-        while(j<s.length) {
-            let char = s[j];
-            if(obj[char]) {
-                obj[char]++;
-            } else {
-                obj[char] = 1;
-                distinct++;
+        let map = new Map();
+        let start = 0;
+        let end = 0;
+        let unique = 0;
+        let res = -1;
+        while(end<s.length) {
+            let char = s[end];
+            map.set(char, (map.get(char) || 0 )+1);
+            if(map.get(char) == 1) {
+                unique++;
             }
-            if(distinct == k) {
-                max = Math.max(max, j-i+1);
-            } 
-             else if ( distinct > k) {
-                let prev = s[i];
-                i++;
-            
-                obj[prev]--;
-                if(obj[prev] == 0) {
-                    distinct--;
+            if(unique == k) {
+                res = Math.max(res, (end-start+1));
+            }
+            while(unique > k && start <= end) {
+                let startItem = s[start];
+                map.set(startItem, map.get(startItem)-1);
+                if(map.get(startItem) == 0) {
+                    unique--;
                 }
+                start++;
             }
-            j++;
+            
+            end++;
         }
-        return max;
+        return res;
     }
 }
