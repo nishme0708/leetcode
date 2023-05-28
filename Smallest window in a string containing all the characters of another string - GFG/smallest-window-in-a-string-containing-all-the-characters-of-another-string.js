@@ -55,60 +55,56 @@ class Solution
     //of all the characters of string p.
     smallestWindow(s, p)
     {
-      if (p.length > s.length) {
-    return -1;
-  }
-  let start = 0;
-  let end = 0;
-  let obj = {};
-  let sobj = {};
-  for (let char of p) {
-    if (!obj[char]) obj[char] = 0;
-    obj[char]++;
-    sobj[char] = 0;
-  }
-  let count = 0;
-  let window = '';
-  while (end < s.length) {
-    let char = s[end];
-    if (sobj[char] != undefined) {
-      sobj[char]++;
-      if (sobj[char] <= obj[char]) {
-        count ++;
-      }
-    }
-    if (count == p.length) {
-      //window found
-      //try to reduce window
-      while (start <= end) {
-        let schar = s[start];
-        if (!sobj[schar]) {
-          start++;
-        } else {
-          if (sobj[schar] > obj[schar]) {
-            start++;
-            sobj[schar]--;
-          } else {
-            break;
-          }
+        if(s.length == 0 || p.length == 0) return -1;
+        if(p.length > s.length) {
+            [p,s] = [s,p];
         }
-      }
-      let match = s.substring(start, end + 1);
-      if(!window) {
-        window = match;
-      } else {
-        if (match.length < window.length) {
-            window = match;
-          }
-      }
-      
-      let remove = s[start];
-      start++;
-      sobj[remove]--;
-      count--;
-    }
-    end++;
-  }
-  return window.length ? window : -1;
+        let target = new Map();
+        let count = 0;
+        for(let item of p) {
+            target.set(item,(target.get(item)||0)+1);
+            if(target.get(item) == 1) {
+                count++;
+            }
+        }
+        let start = 0, end = 0;
+        let map = new Map();
+        let rs = -1, re=-1;
+        let min = Number.MAX_VALUE;
+        while(end<s.length) {
+            let char = s[end];
+            if(target.has(char)) {
+                map.set(char,(map.get(char)||0)+1);
+                if( map.get(char) == target.get(char)) {
+                    count--;
+                }    
+            }
+            
+            if(count == 0) {
+                while(true) {
+                    let startItem = s[start];
+                    if(!target.has(startItem)){
+                        start++;
+                    } else {
+                        if(target.get(startItem) < map.get(startItem)) {
+                            start++;
+                            map.set(startItem,map.get(startItem)-1);
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                if(min > (end-start+1)) {
+                    min = end-start+1;
+                    rs = start;
+                    re = end;
+                }
+                let startItem = s[start++];
+                map.set(startItem,map.get(startItem)-1);
+                count++;
+            }
+            end++;
+        }
+        return rs == -1 ? rs : s.substring(rs,re+1);
     }
 }
