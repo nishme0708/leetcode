@@ -123,9 +123,12 @@ class Solution {
     //Function to find the height of a binary tree.
     height(node)
     {
-        //your code here
-        if(node == null) return 0;
-        if(node.left == null && node.right == null) return 1;
-        return 1+ Math.max(this.height(node.left), this.height(node.right));
+        if(!node) return 0;
+        if(node.left == null && node.right ==null) return 1;
+        let self = 1;
+        let right = this.height(node.right);
+        let left = this.height(node.left);
+        return self + Math.max(left,right)
+        
     }
 }
