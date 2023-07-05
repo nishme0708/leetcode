@@ -72,25 +72,23 @@ class Solution
     //Function to return max value that can be put in knapsack of capacity W.
     knapSack(W, wt, val, n)
     { 
-       // code here
-       let table = Array(n+1).fill().map(()=>Array(W+1));
+       let table = Array(n+1).fill().map(()=>Array(W+1).fill(0));
        for(let i=0;i<=n;i++) {
            for(let j=0;j<=W;j++) {
                if(i==0 || j==0) {
-                   table[i][j] = 0;
+                   continue;
                } else {
                    let cwt = wt[i-1];
-                   let rem = j-cwt;
-                   if(rem>=0) {
+                   let rem = j - cwt;
+                   if(rem >=0) {
                        table[i][j] = Math.max(val[i-1]+table[i-1][rem],table[i-1][j]);
                    } else {
-                       table[i][j] = table[i-1][j];
+                       table[i][j] = table[i-1][j]
                    }
                }
            }
        }
-       return table[n][W];
+       return table[n][W]
     }
-    
 }
 
