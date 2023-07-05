@@ -57,45 +57,40 @@ function main() {
 class Solution {
     search(pat,txt){
        //code here
-           
-       //code here
-       let obj = {};
-       for(let p of pat) {
-           if(!obj[p]) {
-               obj[p] = 0
+       let match = new Map();
+       let unique = 0;
+       for(let char of pat) {
+           if(!match.has(char)) {
+               match.set(char,0);
+               unique++;
            } 
-           obj[p]++;
+           match.set(char,match.get(char)+1);
        }
-       let total = pat.length;
-       let res = 0;
-       let start = 0;
-       let end = 0;
+       let start = 0,end=0;
+       let found = 0;
        while(end<txt.length) {
-           let current = txt[end];
-           if(obj[current]!=undefined) {
-               obj[current]--;
-               if(obj[current]>=0)
-               total--;
-           }
-           if(total == 0) {
-               res++;
+           let char = txt[end];
+           if(match.has(char)) {
+               match.set(char,match.get(char)-1);
+               if(match.get(char) == 0) {
+                   unique--;
+               }
            }
            if(end-start+1 == pat.length) {
-               let startChar = txt[start];
-               if(obj[startChar] != undefined) {
-                   obj[startChar]++;
-                   if(obj[startChar]>0)
-                   total++;
+               if(unique == 0) {
+                   found++;
                }
+               let startItem = txt[start];
                start++;
-               end++;
-           } else {
-               end++;
-           }
+               if(match.has(startItem)) {
+                   match.set(startItem,match.get(startItem)+1);
+                   if(match.get(startItem) == 1) {
+                       unique++;
+                   }
+               }
+           } 
+           end++;
        }
-       return res;
+       return found;
     }
-
-
-    
-    }
+}
