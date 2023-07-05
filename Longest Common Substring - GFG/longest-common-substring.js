@@ -66,26 +66,27 @@ function main() {
  */
 
 class Solution {
-    longestCommonSubstr(S1,S2,m,n){
+    longestCommonSubstr(s1,s2,m,n){
         //code here
+        
         let table = Array(m+1).fill().map(()=>Array(n+1).fill(0));
-        let count = 0;
-        let max = 0;
+        let max =0;
         for(let i=0;i<=m;i++) {
             for(let j=0;j<=n;j++) {
-                if(i==0 || j==0){
-                    table[i][j] = 0;
+                if(i==0 || j==0) {
+                    continue;
                 } else {
-                    if(S1[i-1]==S2[j-1]) {
-                        table[i][j] = 1+ table[i-1][j-1];
-                        max = Math.max(max, table[i][j]);
+                    let a = s1[i-1];
+                    let b = s2[j-1];
+                    if(a==b) {
+                        table[i][j] = 1+table[i-1][j-1];
+                        max = Math.max(table[i][j],max)
                     } else {
-                        table[i][j] = 0;
+                        table[i][j] = 0
                     }
                 }
             }
         }
-        
-    return max
+        return max
     }
 }
