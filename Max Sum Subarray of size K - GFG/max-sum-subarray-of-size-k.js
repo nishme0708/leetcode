@@ -60,23 +60,20 @@ function main() {
 class Solution {
   maximumSumSubarray(K, Arr, N) {
     //code here
-    let start = 0;
-    let end = 0;
-    let windowTotal = 0
-    let max = Number.MIN_VALUE;
+    let start = 0, end = 0;
+    let total = 0;
+    let max = 0;
     while(end<N) {
-        let current = Arr[end];
-        windowTotal = current + windowTotal;
+        let item = Arr[end];
+        total+=item;
         if(end-start+1 == K) {
-            //window found
-            max = Math.max(windowTotal, max);
-            windowTotal-=Arr[start];
+            max = Math.max(max, total);
+            let startItem = Arr[start];
             start++;
-            end++;
-            
-        } else {
-            end++;
-        }
+            total-=startItem;
+        } 
+        end++;
+        
     }
     return max;
   }
