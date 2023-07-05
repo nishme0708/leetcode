@@ -59,31 +59,32 @@ class Solution {
     
     equalPartition(arr, n)
     {
-        let sum = arr.reduce((total,curr)=>total+curr,0);
-        if(sum%2==0) {
-            sum = sum/2;
-        } else {
+        let total = 0;
+        for(let item of arr) {
+            total+=item;
+        }
+        if(total %2!=0) {
             return false;
         }
-        let table = Array(n+1).fill().map(()=>Array(sum+1).fill(false));
-        for(let i = 0;i<=n;i++) {
-            for(let j=0;j<=sum;j++) {
-                if(j == 0) {
+        let mid = total / 2;
+        let table = Array(n+1).fill().map(()=>Array(mid+1).fill(false));
+        for(let i=0;i<=n;i++) {
+            for(let j=0;j<=mid;j++) {
+                if(j==0) {
                     table[i][j] = true;
-                } else {
-                    if(i == 0) {
-                        table[i][j] == 0;
+                } else if(i==0) {
+                    continue;
+                }else {
+                    let cwt = arr[i-1];
+                    let rem = j - cwt;
+                    if(rem >=0) {
+                        table[i][j] = table[i-1][rem] || table[i-1][j];
                     } else {
-                        let rem = j - arr[i-1];
-                        if(rem < 0) {
-                            table[i][j] = table[i-1][j];
-                        } else {
-                            table[i][j] = table[i-1][rem] || table[i-1][j];
-                        }
+                        table[i][j] = table[i-1][j];
                     }
                 }
             }
         }
-        return table[n][sum];
+        return table[n][mid]
     }
 }
