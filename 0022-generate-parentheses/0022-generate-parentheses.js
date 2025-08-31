@@ -4,16 +4,17 @@
  */
 var generateParenthesis = function(n) {
     let res = [];
-    function gen(open,close,output) {
-        if(close > open) return;
-        if(output.length > n*2) return;
-        if(output.length == n*2 && open == close) {
-            res.push(output);
+    let total = n*2;
+    function gen(l,r,o) {
+        
+        if(o.length == total && l==r) {
+            res.push(o)
             return;
         }
-        gen(open+1,close,output+'(');
-        gen(open,close+1,output+')');
+        if(r>l || l+r>total) return;
+        gen(l+1,r,o+'(')
+        gen(l,r+1,o+')')
     }
-    gen(0,0,'');
+    gen(0,0,'')
     return res;
 };
