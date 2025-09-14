@@ -3,43 +3,39 @@
  * @param {number[][]} prerequisites
  * @return {number[]}
  */
-
-
-
-var findOrder = function (numCourses, prerequisites) {
-  let graph = {};
-  for (let pre of prerequisites) {
-    let [end, start] = pre;
-    if (!graph[start]) graph[start] = [];
-    graph[start].push(end);
-  }
-  console.log(graph);
-  let visited = {};
-  let res = [];
-  for (let i = 0; i < numCourses; i++) {
-    if (!visited[i]) {
-      let r = traverse(i, graph, visited);
-      if (r) return [];
-    }
-  }
-
-  function traverse(start, graph, visited) {
-    visited[start] = 1;
-    if (graph[start]?.length) {
-      for (let node of graph[start]) {
-        if (visited[node] == 1) return true;
-        if (!visited[node]) {
-          let r = traverse(node, graph, visited);
-          if (r) {
-            return true;
-          }
+var findOrder = function(numCourses, prerequisites) {
+    let indeg = Array(numCourses).fill(0)
+    let g = getList();
+    let res = [];
+    let q = [];
+    indeg.forEach((v,i)=>{
+        if(v==0) {
+            q.push(i)
         }
-      }
+    })
+    while(q.length) {
+        let item = q.shift();
+        res.push(item)
+        if(!g[item]) continue;
+        for(let n of g[item]) {
+            indeg[n]--;
+            if(indeg[n]==0) {
+                q.push(n)
+            }
+        }
     }
-    visited[start] = 2;
-    res.push(start);
-    return false;
-  }
+    return res.length == numCourses ? res : []
 
-  return res.reverse();
+    function getList(){
+        let g = {};
+        for(let edge of prerequisites) {
+            let [a,b] = edge;
+            if(!g[b]) {
+                g[b] = [];
+            }
+            g[b].push(a);
+            indeg[a]++;
+        }
+        return g;
+    }
 };
